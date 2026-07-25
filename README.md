@@ -8,7 +8,7 @@
 
 [![Release](https://img.shields.io/github/v/release/snowmii/Resourceful?style=for-the-badge&logo=github&color=blue)](https://github.com/snowmii/Resourceful/releases/latest)
 [![Build](https://img.shields.io/github/actions/workflow/status/snowmii/Resourceful/ci.yml?branch=master&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/snowmii/Resourceful/actions/workflows/ci.yml)
-[![Modrinth](https://img.shields.io/modrinth/dt/Resourceful?style=for-the-badge&logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/Resourceful)
+[![Modrinth](https://img.shields.io/modrinth/dt/resource-ful?style=for-the-badge&logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/resource-ful)
 [![License](https://img.shields.io/github/license/snowmii/Resourceful?style=for-the-badge&color=green)](LICENSE)
 
 [![Minecraft](https://img.shields.io/badge/minecraft-26.1.2%20%7C%2026.2-62B47A?style=for-the-badge&logo=minecraft&logoColor=white)](https://modrinth.com/mod/Resourceful/versions)
