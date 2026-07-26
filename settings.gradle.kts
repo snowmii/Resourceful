@@ -15,8 +15,8 @@ stonecutter {
     kotlinController = true
     create(rootProject) {
         vcsVersion = "26.2"
-        versions("26.1.2", "26.2")
+        versions("1.21.11", "26.1.2", "26.2")
     }
 }
 
-rootProject.name = "packhand"
+rootProject.name = "resourceful"

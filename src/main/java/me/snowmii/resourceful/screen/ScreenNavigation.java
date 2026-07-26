@@ -1,4 +1,4 @@
-package me.snowmii.packhand.screen;
+package me.snowmii.resourceful.screen;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -1,7 +1,11 @@
-package me.snowmii.packhand.ui;
+package me.snowmii.resourceful.ui;
 
 import net.minecraft.client.gui.Font;
+//? if >=26 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -16,10 +20,17 @@ final class PresetButton extends Button {
     }
 
     @Override
+    //? if >=26 {
     protected void extractContents(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float partialTick) {
         extractDefaultSprite(graphics);
         graphics.centeredText(this.font, getMessage(), getX() + getWidth() / 2, getY() + 6, active ? 0xFFFFFFFF : 0xFFA0A0A0);
     }
+    //?} else {
+    /*protected void renderContents(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTick) {
+        renderDefaultSprite(graphics);
+        graphics.drawCenteredString(this.font, getMessage(), getX() + getWidth() / 2, getY() + 6, active ? 0xFFFFFFFF : 0xFFA0A0A0);
+    }
+    *///?}
 
     @Override
     public boolean isMouseOver(final double mouseX, final double mouseY) {

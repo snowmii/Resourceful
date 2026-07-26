@@ -1,10 +1,14 @@
-package me.snowmii.packhand.mixin;
+package me.snowmii.resourceful.mixin;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import me.snowmii.packhand.config.PackhandConfig;
-import me.snowmii.packhand.ui.drag.DragState;
-import me.snowmii.packhand.mixin.accessor.PackEntryAccessor;
+import me.snowmii.resourceful.config.ResourcefulConfig;
+import me.snowmii.resourceful.ui.drag.DragState;
+import me.snowmii.resourceful.mixin.accessor.PackEntryAccessor;
+//? if >=26 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -18,10 +22,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TransferableSelectionList.PackEntry.class)
 public abstract class PackEntryMixin {
+    //? if >=26 {
     @Inject(method = "extractContent", at = @At("HEAD"), cancellable = true)
-    private void packhand$hideDraggedEntry(final CallbackInfo ci) {
+    //?} else
+    /*@Inject(method = "renderContent", at = @At("HEAD"), cancellable = true)*/
+    private void resourceful$hideDraggedEntry(final CallbackInfo ci) {
         TransferableSelectionList.PackEntry self = (TransferableSelectionList.PackEntry)(Object)this;
-        PackSelectionModel.Entry pack = ((PackEntryAccessor)self).packhand$getPack();
+        PackSelectionModel.Entry pack = ((PackEntryAccessor)self).resourceful$getPack();
         if (DragState.INSTANCE.isDraggedEntry(pack)) {
             ci.cancel();
         } else {
@@ -32,12 +39,16 @@ public abstract class PackEntryMixin {
         }
     }
 
+    //? if >=26 {
     @Inject(method = "extractContent", at = @At("TAIL"))
-    private void packhand$restoreDragOffset(final CallbackInfo ci) {
+    //?} else
+    /*@Inject(method = "renderContent", at = @At("TAIL"))*/
+    private void resourceful$restoreDragOffset(final CallbackInfo ci) {
         TransferableSelectionList.PackEntry self = (TransferableSelectionList.PackEntry)(Object)this;
         DragState.INSTANCE.restoreVisualOffset(self);
     }
 
+    //? if >=26 {
     @Redirect(
         method = "extractContent",
         at = @At(
@@ -45,8 +56,20 @@ public abstract class PackEntryMixin {
             target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
         )
     )
-    private void packhand$hideMoveArrows(
+    //?} else {
+    /*@Redirect(
+        method = "renderContent",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
+        )
+    )
+    *///?}
+    private void resourceful$hideMoveArrows(
+        //? if >=26 {
         final GuiGraphicsExtractor graphics,
+        //?} else
+        /*final GuiGraphics graphics,*/
         final RenderPipeline pipeline,
         final Identifier sprite,
         final int x,
@@ -54,22 +77,22 @@ public abstract class PackEntryMixin {
         final int width,
         final int height
     ) {
-        if (!PackhandConfig.INSTANCE.hideArrows() || !sprite.toString().contains("/move_")) {
+        if (!ResourcefulConfig.INSTANCE.hideArrows() || !sprite.toString().contains("/move_")) {
             graphics.blitSprite(pipeline, sprite, x, y, width, height);
         }
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void packhand$disableHiddenArrowClicks(
+    private void resourceful$disableHiddenArrowClicks(
         final MouseButtonEvent event,
         final boolean doubleClick,
         final CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!PackhandConfig.INSTANCE.hideArrows()) {
+        if (!ResourcefulConfig.INSTANCE.hideArrows()) {
             return;
         }
         TransferableSelectionList.PackEntry self = (TransferableSelectionList.PackEntry)(Object)this;
-        PackSelectionModel.Entry pack = ((PackEntryAccessor)self).packhand$getPack();
+        PackSelectionModel.Entry pack = ((PackEntryAccessor)self).resourceful$getPack();
         int relativeX = (int)event.x() - self.getContentX();
         int relativeY = (int)event.y() - self.getContentY();
         if (!pack.canSelect() && relativeX >= 16 && relativeX < 32 && relativeY >= 0 && relativeY < 32) {

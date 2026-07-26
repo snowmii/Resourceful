@@ -1,9 +1,13 @@
-package me.snowmii.packhand.mixin;
+package me.snowmii.resourceful.mixin;
 
-import me.snowmii.packhand.ui.drag.DragState;
-import me.snowmii.packhand.mixin.accessor.TransferableSelectionListAccessor;
-import me.snowmii.packhand.screen.PackSelectionScreenAccess;
+import me.snowmii.resourceful.ui.drag.DragState;
+import me.snowmii.resourceful.mixin.accessor.TransferableSelectionListAccessor;
+import me.snowmii.resourceful.screen.PackSelectionScreenAccess;
+//? if >=26 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
@@ -17,16 +21,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractSelectionList.class)
 public abstract class AbstractSelectionListMixin {
     @Inject(method = "contentHeight", at = @At("RETURN"), cancellable = true)
-    private void packhand$adjustDragContentHeight(final CallbackInfoReturnable<Integer> cir) {
+    private void resourceful$adjustDragContentHeight(final CallbackInfoReturnable<Integer> cir) {
         Object self = this;
         if (self instanceof TransferableSelectionList list) {
             cir.setReturnValue(cir.getReturnValue() + DragState.INSTANCE.contentHeightAdjustment(list));
         }
     }
 
+    //? if >=26 {
     @Inject(method = "extractWidgetRenderState", at = @At("HEAD"))
-    private void packhand$updateDragGap(
+    //?} else
+    /*@Inject(method = "renderWidget", at = @At("HEAD"))*/
+    private void resourceful$updateDragGap(
+        //? if >=26 {
         final GuiGraphicsExtractor graphics,
+        //?} else
+        /*final GuiGraphics graphics,*/
         final int mouseX,
         final int mouseY,
         final float partialTick,
@@ -38,9 +48,15 @@ public abstract class AbstractSelectionListMixin {
         }
     }
 
+    //? if >=26 {
     @Inject(method = "extractWidgetRenderState", at = @At("TAIL"))
-    private void packhand$renderDrag(
+    //?} else
+    /*@Inject(method = "renderWidget", at = @At("TAIL"))*/
+    private void resourceful$renderDrag(
+        //? if >=26 {
         final GuiGraphicsExtractor graphics,
+        //?} else
+        /*final GuiGraphics graphics,*/
         final int mouseX,
         final int mouseY,
         final float partialTick,
@@ -59,7 +75,7 @@ public abstract class AbstractSelectionListMixin {
 
     @Unique
     private static TransferableSelectionList selected(final TransferableSelectionList list) {
-        PackSelectionScreen screen = ((TransferableSelectionListAccessor)list).packhand$getScreen();
-        return ((PackSelectionScreenAccess)screen).packhand$getSelectedPackList();
+        PackSelectionScreen screen = ((TransferableSelectionListAccessor)list).resourceful$getScreen();
+        return ((PackSelectionScreenAccess)screen).resourceful$getSelectedPackList();
     }
 }

@@ -84,7 +84,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: packhand-${{ matrix.minecraft }}
+          name: resourceful-${{ matrix.minecraft }}
           path: dist/*.jar
           if-no-files-found: error
 
@@ -93,10 +93,87 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Build changelog from commits
+        id: changelog
+        run: |
+          prev=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || true)
+          if [ -n "$prev" ]; then
+            range="$prev..$TAG"
+            echo "Previous tag: $prev"
+          else
+            range="$TAG"
+            echo "No previous tag, using full history"
+          fi
+
+          # sha|author-name|author-email|subject (subject last: may contain '|')
+          # drop bot commits (author name/email), then drop duplicate subjects
+          commits=$(git log --no-merges --pretty=format:'%h|%an|%ae|%s' "$range" | awk -F'|' '
+            NF < 4 { next }
+            {
+              sha = $1
+              who = tolower($2 " " $3)
+              subject = $4
+              for (i = 5; i <= NF; i++) subject = subject "|" $i
+              if (who ~ /\[bot\]/) next
+              if (who ~ /(^|[^a-z])(dependabot|renovate|github-actions|actions-user|codefactor|imgbot|allcontributors|pre-commit(-ci)?|snyk|mergify|weblate|crowdin|semantic-release|release-please)([^a-z]|$)/) next
+              if (who ~ /(noreply@github\.com|users\.noreply\.github\.com)$/ && who ~ /bot/) next
+              key = tolower(subject)
+              if (seen[key]++) next
+              print subject "\t" sha
+            }
+          ')
+
+          body=''
+
+          section() { # $1 = type regex, $2 = heading
+            matched=$(printf '%s\n' "$commits" | grep -E "^($1)(\([^)]*\))?!?: " || true)
+            [ -z "$matched" ] && return
+            body="$body### $2"$'\n\n'
+            while IFS=$'\t' read -r subject sha; do
+              body="$body- ${subject#*: } ($sha)"$'\n'
+            done <<< "$matched"
+            body="$body"$'\n'
+          }
+
+          section 'feat|feature' 'Features'
+          section 'fix|bugfix'    'Bug Fixes'
+          section 'perf'          'Performance'
+          section 'refactor'      'Refactoring'
+          section 'docs'          'Documentation'
+          section 'test'          'Tests'
+          section 'build|ci'      'Build & CI'
+          section 'style|chore'   'Chores'
+
+          other=$(printf '%s\n' "$commits" \
+            | grep -vE '^(feat|feature|fix|bugfix|perf|refactor|docs|test|build|ci|style|chore)(\([^)]*\))?!?: ' || true)
+          if [ -n "$other" ]; then
+            body="$body### Other"$'\n\n'
+            while IFS=$'\t' read -r subject sha; do
+              body="$body- $subject ($sha)"$'\n'
+            done <<< "$other"
+            body="$body"$'\n'
+          fi
+
+          if [ -n "$prev" ]; then
+            body="$body**Full Changelog**: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$prev...$TAG"$'\n'
+          fi
+
+          printf '%s' "$body"
+          {
+            echo 'body<<CHANGELOG_EOF'
+            printf '%s' "$body"
+            echo 'CHANGELOG_EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Download all jars
         uses: actions/download-artifact@v8
         with:
-          pattern: packhand-*
+          pattern: resourceful-*
           merge-multiple: true
           path: dist
 
@@ -113,7 +190,8 @@ jobs:
           files: |
             dist/*.jar
             dist/SHA256SUMS.txt
-          generate_release_notes: true
+          body: ${{ steps.changelog.outputs.body }}
+          generate_release_notes: false
           fail_on_unmatched_files: true
 
   modrinth:
@@ -134,7 +212,7 @@ jobs:
         if: env.MODRINTH_TOKEN != ''
         uses: actions/download-artifact@v8
         with:
-          name: packhand-${{ matrix.minecraft }}
+          name: resourceful-${{ matrix.minecraft }}
           path: dist
 
       - name: Fetch release notes
@@ -157,7 +235,7 @@ jobs:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           files: dist/*.jar
-          name: Packhand ${{ env.TAG }} for Minecraft ${{ matrix.minecraft }}
+          name: Resourceful ${{ env.TAG }} for Minecraft ${{ matrix.minecraft }}
           version: ${{ steps.notes.outputs.version }}+${{ matrix.minecraft }}
           changelog: ${{ steps.notes.outputs.body }}
           loaders: fabric

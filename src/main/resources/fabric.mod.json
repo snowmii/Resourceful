@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "packhand",
+  "id": "resourceful",
   "version": "${version}",
-  "name": "Packhand",
+  "name": "Resourceful",
   "description": "Drag-and-drop resource pack selection and reusable presets.",
   "authors": ["snowmii"],
   "environment": "client",
   "entrypoints": {
     "client": [
-      "me.snowmii.packhand.Packhand"
+      "me.snowmii.resourceful.Resourceful"
     ]
   },
-  "mixins": ["packhand.mixins.json"],
+  "mixins": ["resourceful.mixins.json"],
   "depends": {
     "fabricloader": ">=0.19.3",
     "fabric-api": "*",
     "minecraft": "~${minecraft_version}",
-    "java": ">=25"
+    "java": ">=${java_version}"
   }
 }

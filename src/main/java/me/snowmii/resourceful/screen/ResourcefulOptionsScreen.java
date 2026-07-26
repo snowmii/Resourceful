@@ -1,20 +1,20 @@
-package me.snowmii.packhand.screen;
+package me.snowmii.resourceful.screen;
 
-import me.snowmii.packhand.config.PackhandConfig;
+import me.snowmii.resourceful.config.ResourcefulConfig;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
-public final class PackhandOptionsScreen extends Screen {
+public final class ResourcefulOptionsScreen extends Screen {
     private static final int BUTTON_WIDTH = 220;
     private final Screen parent;
     private Button arrowsButton;
     private Button animationButton;
 
-    public PackhandOptionsScreen(final Screen parent) {
-        super(Component.translatable("packhand.options.title"));
+    public ResourcefulOptionsScreen(final Screen parent) {
+        super(Component.translatable("resourceful.options.title"));
         this.parent = parent;
     }
 
@@ -27,13 +27,13 @@ public final class PackhandOptionsScreen extends Screen {
         this.addRenderableWidget(title);
 
         this.arrowsButton = this.addRenderableWidget(Button.builder(arrowsLabel(), ignored -> {
-            PackhandConfig config = PackhandConfig.INSTANCE;
+            ResourcefulConfig config = ResourcefulConfig.INSTANCE;
             config.setHideArrows(!config.hideArrows());
             this.arrowsButton.setMessage(arrowsLabel());
         }).bounds(x, y, BUTTON_WIDTH, 20).build());
 
         this.animationButton = this.addRenderableWidget(Button.builder(animationLabel(), ignored -> {
-            PackhandConfig config = PackhandConfig.INSTANCE;
+            ResourcefulConfig config = ResourcefulConfig.INSTANCE;
             config.setAnimatedDragging(!config.animatedDragging());
             this.animationButton.setMessage(animationLabel());
         }).bounds(x, y + 24, BUTTON_WIDTH, 20).build());
@@ -48,11 +48,11 @@ public final class PackhandOptionsScreen extends Screen {
     }
 
     private static Component arrowsLabel() {
-        return optionLabel("packhand.options.hide_arrows", PackhandConfig.INSTANCE.hideArrows());
+        return optionLabel("resourceful.options.hide_arrows", ResourcefulConfig.INSTANCE.hideArrows());
     }
 
     private static Component animationLabel() {
-        return optionLabel("packhand.options.animated_dragging", PackhandConfig.INSTANCE.animatedDragging());
+        return optionLabel("resourceful.options.animated_dragging", ResourcefulConfig.INSTANCE.animatedDragging());
     }
 
     private static Component optionLabel(final String key, final boolean value) {

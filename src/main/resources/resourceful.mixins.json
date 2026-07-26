@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "me.snowmii.packhand.mixin",
+  "package": "me.snowmii.resourceful.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
     "AbstractSelectionListMixin",
