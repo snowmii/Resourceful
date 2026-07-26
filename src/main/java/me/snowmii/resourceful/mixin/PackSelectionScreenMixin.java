@@ -1,10 +1,10 @@
-package me.snowmii.packhand.mixin;
+package me.snowmii.resourceful.mixin;
 
-import me.snowmii.packhand.Packhand;
-import me.snowmii.packhand.config.PackhandConfig;
-import me.snowmii.packhand.preset.PresetManager;
-import me.snowmii.packhand.screen.PackSelectionScreenAccess;
-import me.snowmii.packhand.ui.PresetPanel;
+import me.snowmii.resourceful.Resourceful;
+import me.snowmii.resourceful.config.ResourcefulConfig;
+import me.snowmii.resourceful.preset.PresetManager;
+import me.snowmii.resourceful.screen.PackSelectionScreenAccess;
+import me.snowmii.resourceful.ui.PresetPanel;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
@@ -38,63 +38,63 @@ public abstract class PackSelectionScreenMixin extends Screen implements PackSel
     private @Nullable TransferableSelectionList selectedPackList;
 
     @Unique
-    private boolean packhand$resourcePackScreen;
+    private boolean resourceful$resourcePackScreen;
 
     @Unique
-    private @Nullable PresetManager packhand$presetManager;
+    private @Nullable PresetManager resourceful$presetManager;
 
     @Unique
-    private @Nullable PresetPanel packhand$presetPanel;
+    private @Nullable PresetPanel resourceful$presetPanel;
 
     @Unique
-    private @Nullable String packhand$selectedPreset;
+    private @Nullable String resourceful$selectedPreset;
 
     protected PackSelectionScreenMixin(final Component title) {
         super(title);
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void packhand$identifyResourcePackScreen(
+    private void resourceful$identifyResourcePackScreen(
         final PackRepository repository,
         final Consumer<PackRepository> output,
         final Path packDir,
         final Component title,
         final CallbackInfo ci
     ) {
-        this.packhand$resourcePackScreen = repository == Minecraft.getInstance().getResourcePackRepository();
-        this.packhand$selectedPreset = PackhandConfig.INSTANCE.lastSelectedPreset();
+        this.resourceful$resourcePackScreen = repository == Minecraft.getInstance().getResourcePackRepository();
+        this.resourceful$selectedPreset = ResourcefulConfig.INSTANCE.lastSelectedPreset();
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void packhand$addPresetPanel(final CallbackInfo ci) {
-        if (!this.packhand$resourcePackScreen || this.availablePackList == null || this.selectedPackList == null) {
+    private void resourceful$addPresetPanel(final CallbackInfo ci) {
+        if (!this.resourceful$resourcePackScreen || this.availablePackList == null || this.selectedPackList == null) {
             return;
         }
-        if (this.packhand$presetManager == null) {
-            this.packhand$presetManager = new PresetManager(Packhand.configFile("presets.json"));
+        if (this.resourceful$presetManager == null) {
+            this.resourceful$presetManager = new PresetManager(Resourceful.configFile("presets.json"));
         }
         int x = this.availablePackList.getX();
         int width = this.selectedPackList.getRight() - x;
         int y = this.availablePackList.getY() - PresetPanel.HEIGHT;
-        this.packhand$presetPanel = new PresetPanel(
+        this.resourceful$presetPanel = new PresetPanel(
             this.font,
             x,
             y,
             width,
-            this.packhand$presetManager,
+            this.resourceful$presetManager,
             this.model,
             this,
             this.availablePackList,
             this.selectedPackList,
-            this.packhand$selectedPreset == null ? "" : this.packhand$selectedPreset,
+            this.resourceful$selectedPreset == null ? "" : this.resourceful$selectedPreset,
             this::addRenderableWidget,
-            this::packhand$selectPreset
+            this::resourceful$selectPreset
         );
     }
 
     @Inject(method = "repositionElements", at = @At("TAIL"))
-    private void packhand$positionPresetPanel(final CallbackInfo ci) {
-        if (!this.packhand$resourcePackScreen || this.availablePackList == null || this.selectedPackList == null) {
+    private void resourceful$positionPresetPanel(final CallbackInfo ci) {
+        if (!this.resourceful$resourcePackScreen || this.availablePackList == null || this.selectedPackList == null) {
             return;
         }
 
@@ -113,46 +113,46 @@ public abstract class PackSelectionScreenMixin extends Screen implements PackSel
             this.selectedPackList.getY() + PresetPanel.HEIGHT
         );
 
-        if (this.packhand$presetPanel != null) {
+        if (this.resourceful$presetPanel != null) {
             int x = this.availablePackList.getX();
             int width = this.selectedPackList.getRight() - x;
-            this.packhand$presetPanel.reposition(x, this.availablePackList.getY() - PresetPanel.HEIGHT, width);
+            this.resourceful$presetPanel.reposition(x, this.availablePackList.getY() - PresetPanel.HEIGHT, width);
         }
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void packhand$tickPresetPanel(final CallbackInfo ci) {
-        if (this.packhand$presetPanel != null) {
-            this.packhand$presetPanel.tick();
+    private void resourceful$tickPresetPanel(final CallbackInfo ci) {
+        if (this.resourceful$presetPanel != null) {
+            this.resourceful$presetPanel.tick();
         }
     }
 
     @Override
     public boolean mouseClicked(final @NonNull MouseButtonEvent event, final boolean doubleClick) {
-        if (this.packhand$presetPanel != null) {
-            this.packhand$presetPanel.closePresetListIfOutside(event.x(), event.y());
+        if (this.resourceful$presetPanel != null) {
+            this.resourceful$presetPanel.closePresetListIfOutside(event.x(), event.y());
         }
         return super.mouseClicked(event, doubleClick);
     }
 
     @Unique
-    private void packhand$selectPreset(final String name) {
-        this.packhand$selectedPreset = name;
-        PackhandConfig.INSTANCE.setLastSelectedPreset(name);
+    private void resourceful$selectPreset(final String name) {
+        this.resourceful$selectedPreset = name;
+        ResourcefulConfig.INSTANCE.setLastSelectedPreset(name);
     }
 
     @Override
-    public boolean packhand$isResourcePackScreen() {
-        return this.packhand$resourcePackScreen;
+    public boolean resourceful$isResourcePackScreen() {
+        return this.resourceful$resourcePackScreen;
     }
 
     @Override
-    public TransferableSelectionList packhand$getAvailablePackList() {
+    public TransferableSelectionList resourceful$getAvailablePackList() {
         return this.availablePackList;
     }
 
     @Override
-    public TransferableSelectionList packhand$getSelectedPackList() {
+    public TransferableSelectionList resourceful$getSelectedPackList() {
         return this.selectedPackList;
     }
 }

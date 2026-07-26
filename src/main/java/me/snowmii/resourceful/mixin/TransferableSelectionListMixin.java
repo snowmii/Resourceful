@@ -1,9 +1,9 @@
-package me.snowmii.packhand.mixin;
+package me.snowmii.resourceful.mixin;
 
-import me.snowmii.packhand.ui.drag.DragState;
-import me.snowmii.packhand.mixin.accessor.PackEntryAccessor;
-import me.snowmii.packhand.mixin.accessor.TransferableSelectionListAccessor;
-import me.snowmii.packhand.screen.PackSelectionScreenAccess;
+import me.snowmii.resourceful.ui.drag.DragState;
+import me.snowmii.resourceful.mixin.accessor.PackEntryAccessor;
+import me.snowmii.resourceful.mixin.accessor.TransferableSelectionListAccessor;
+import me.snowmii.resourceful.screen.PackSelectionScreenAccess;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractContainerWidget.class)
 public abstract class TransferableSelectionListMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"))
-    private void packhand$armDrag(
+    private void resourceful$armDrag(
         final MouseButtonEvent event,
         final boolean doubleClick,
         final CallbackInfoReturnable<Boolean> cir
@@ -26,7 +26,7 @@ public abstract class TransferableSelectionListMixin {
         if (self == null) {
             return;
         }
-        if (event.button() != 0 || !access(self).packhand$isResourcePackScreen()) {
+        if (event.button() != 0 || !access(self).resourceful$isResourcePackScreen()) {
             DragState.INSTANCE.clear();
             return;
         }
@@ -35,7 +35,7 @@ public abstract class TransferableSelectionListMixin {
             if (child instanceof TransferableSelectionList.PackEntry packEntry
                 && packEntry.isMouseOver(event.x(), event.y())
                 && event.x() >= packEntry.getContentX() + TransferableSelectionList.PackEntry.ICON_SIZE) {
-                PackSelectionModel.Entry modelEntry = ((PackEntryAccessor)packEntry).packhand$getPack();
+                PackSelectionModel.Entry modelEntry = ((PackEntryAccessor)packEntry).resourceful$getPack();
                 DragState.INSTANCE.arm(self, packEntry, modelEntry, event.x(), event.y());
                 return;
             }
@@ -44,7 +44,7 @@ public abstract class TransferableSelectionListMixin {
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"), cancellable = true)
-    private void packhand$drag(
+    private void resourceful$drag(
         final MouseButtonEvent event,
         final double dx,
         final double dy,
@@ -61,7 +61,7 @@ public abstract class TransferableSelectionListMixin {
     }
 
     @Inject(method = "mouseReleased", at = @At("HEAD"), cancellable = true)
-    private void packhand$drop(final MouseButtonEvent event, final CallbackInfoReturnable<Boolean> cir) {
+    private void resourceful$drop(final MouseButtonEvent event, final CallbackInfoReturnable<Boolean> cir) {
         TransferableSelectionList self = self();
         if (self == null || event.button() != 0 || !DragState.INSTANCE.belongsTo(self)) {
             return;
@@ -81,15 +81,15 @@ public abstract class TransferableSelectionListMixin {
     }
 
     private static PackSelectionScreenAccess access(final TransferableSelectionList list) {
-        PackSelectionScreen screen = ((TransferableSelectionListAccessor)list).packhand$getScreen();
+        PackSelectionScreen screen = ((TransferableSelectionListAccessor)list).resourceful$getScreen();
         return (PackSelectionScreenAccess)screen;
     }
 
     private static TransferableSelectionList available(final TransferableSelectionList list) {
-        return access(list).packhand$getAvailablePackList();
+        return access(list).resourceful$getAvailablePackList();
     }
 
     private static TransferableSelectionList selected(final TransferableSelectionList list) {
-        return access(list).packhand$getSelectedPackList();
+        return access(list).resourceful$getSelectedPackList();
     }
 }

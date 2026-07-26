@@ -1,13 +1,17 @@
-package me.snowmii.packhand.ui.drag;
+package me.snowmii.resourceful.ui.drag;
 
-import me.snowmii.packhand.config.PackhandConfig;
-import me.snowmii.packhand.mixin.accessor.PackEntryAccessor;
+import me.snowmii.resourceful.config.ResourcefulConfig;
+import me.snowmii.resourceful.mixin.accessor.PackEntryAccessor;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
+//? if >=26 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -134,7 +138,11 @@ public final class DragState {
         clear();
     }
 
+    //? if >=26 {
     public void renderIndicator(final TransferableSelectionList list, final GuiGraphicsExtractor graphics) {
+    //?} else {
+    /*public void renderIndicator(final TransferableSelectionList list, final GuiGraphics graphics) {
+    *///?}
         if (!this.dragging || this.target != list || this.entry == null) {
             return;
         }
@@ -151,11 +159,15 @@ public final class DragState {
             TransferableSelectionList.PackEntry last = entries.getLast();
             y = collapsedY(last, entries.size() - 1, originIndex) + last.getHeight();
         }
-        int color = PackhandConfig.INSTANCE.animatedDragging() ? 0xFF66CCFF : 0xFFFFFFFF;
+        int color = ResourcefulConfig.INSTANCE.animatedDragging() ? 0xFF66CCFF : 0xFFFFFFFF;
         graphics.fill(list.getX() + 4, y - 1, list.getRight() - 4, y + 1, color);
     }
 
+    //? if >=26 {
     public void renderGhost(final TransferableSelectionList list, final GuiGraphicsExtractor graphics) {
+    //?} else {
+    /*public void renderGhost(final TransferableSelectionList list, final GuiGraphics graphics) {
+    *///?}
         if (!this.dragging || this.entry == null) {
             return;
         }
@@ -163,7 +175,7 @@ public final class DragState {
         int width = Math.max(80, list.getRowWidth());
         double desiredX = this.mouseX - this.grabOffsetX;
         double desiredY = this.mouseY - this.grabOffsetY;
-        if (PackhandConfig.INSTANCE.animatedDragging()) {
+        if (ResourcefulConfig.INSTANCE.animatedDragging()) {
             this.ghostX += (desiredX - this.ghostX) * 0.55;
             this.ghostY += (desiredY - this.ghostY) * 0.55;
         } else {
@@ -177,11 +189,18 @@ public final class DragState {
         graphics.fill(x, y, x + width, y + 32, 0xEE202020);
         graphics.blit(RenderPipelines.GUI_TEXTURED, this.entry.getIconTexture(), x, y, 0.0F, 0.0F, 32, 32, 32, 32);
         var font = Minecraft.getInstance().font;
-        graphics.text(font, this.entry.getTitle(), x + 35, y + 2, 0xFFFFFFFF);
         List<FormattedCharSequence> description = font.split(this.entry.getExtendedDescription(), Math.max(1, width - 37));
+        //? if >=26 {
+        graphics.text(font, this.entry.getTitle(), x + 35, y + 2, 0xFFFFFFFF);
         for (int line = 0; line < Math.min(2, description.size()); line++) {
             graphics.text(font, description.get(line), x + 35, y + 12 + line * 9, 0xFF808080, false);
         }
+        //?} else {
+        /*graphics.drawString(font, this.entry.getTitle(), x + 35, y + 2, 0xFFFFFFFF);
+        for (int line = 0; line < Math.min(2, description.size()); line++) {
+            graphics.drawString(font, description.get(line), x + 35, y + 12 + line * 9, 0xFF808080, false);
+        }
+        *///?}
     }
 
     /** Advances the surrounding rows toward the gap opened at the drop position. */
@@ -198,7 +217,7 @@ public final class DragState {
             }
             double desired = desiredOffset(list, widget, index, originIndex);
             double current = this.visualOffsets.getOrDefault(widget, 0.0);
-            if (PackhandConfig.INSTANCE.animatedDragging()) {
+            if (ResourcefulConfig.INSTANCE.animatedDragging()) {
                 current += (desired - current) * 0.38;
             } else {
                 current = desired;
@@ -352,7 +371,7 @@ public final class DragState {
 
     private static PackSelectionModel.Entry modelEntry(final TransferableSelectionList list, final String id) {
         TransferableSelectionList.PackEntry widget = packEntry(list, id);
-        return widget == null ? null : ((PackEntryAccessor)widget).packhand$getPack();
+        return widget == null ? null : ((PackEntryAccessor)widget).resourceful$getPack();
     }
 
     private static TransferableSelectionList.PackEntry packEntry(final TransferableSelectionList list, final String id) {

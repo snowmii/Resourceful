@@ -1,4 +1,4 @@
-package me.snowmii.packhand.preset;
+package me.snowmii.resourceful.preset;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,12 +1,12 @@
-package me.snowmii.packhand;
+package me.snowmii.resourceful;
 
 import java.nio.file.Path;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
 /** Client entrypoint. All behaviour is installed through mixins, so this only holds shared constants. */
-public final class Packhand implements ClientModInitializer {
-    public static final String MOD_ID = "packhand";
+public final class Resourceful implements ClientModInitializer {
+    public static final String MOD_ID = "resourceful";
 
     /** Returns a file inside the mod's own configuration directory. */
     public static Path configFile(final String name) {

@@ -1,4 +1,4 @@
-package me.snowmii.packhand.config;
+package me.snowmii.resourceful.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,22 +11,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-import me.snowmii.packhand.Packhand;
+import me.snowmii.resourceful.Resourceful;
 
 /**
  * Small, eagerly loaded client configuration shared by the UI mixins.
  */
-public final class PackhandConfig {
+public final class ResourcefulConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public static final PackhandConfig INSTANCE = new PackhandConfig(Packhand.configFile("config.json"));
+    public static final ResourcefulConfig INSTANCE = new ResourcefulConfig(Resourceful.configFile("config.json"));
 
     private final Path file;
     private boolean hideArrows = true;
     private boolean animatedDragging = true;
     private String lastSelectedPreset = "";
 
-    private PackhandConfig(final Path file) {
+    private ResourcefulConfig(final Path file) {
         this.file = file;
         load();
     }

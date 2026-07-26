@@ -1,7 +1,7 @@
-package me.snowmii.packhand.ui;
+package me.snowmii.resourceful.ui;
 
-import me.snowmii.packhand.preset.Preset;
-import me.snowmii.packhand.preset.PresetManager;
+import me.snowmii.resourceful.preset.Preset;
+import me.snowmii.resourceful.preset.PresetManager;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.components.toasts.ToastManager;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
-import me.snowmii.packhand.screen.PackhandOptionsScreen;
-import me.snowmii.packhand.screen.ScreenNavigation;
+import me.snowmii.resourceful.screen.ResourcefulOptionsScreen;
+import me.snowmii.resourceful.screen.ScreenNavigation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 
@@ -83,23 +83,23 @@ public final class PresetPanel {
         List<String> names = presetChoices();
         this.selectedPreset = names.stream().filter(name -> name.equalsIgnoreCase(selectedName)).findFirst().orElse(names.isEmpty() ? "" : names.getFirst());
 
-        this.selector = Button.builder(selectorLabel(), _ -> togglePresetList()).size(SELECTOR_WIDTH, WIDGET_HEIGHT).build();
-        this.saveButton = Button.builder(Component.translatable("packhand.preset.save"), _ -> overwrite()).size(SAVE_WIDTH, WIDGET_HEIGHT).build();
+        this.selector = Button.builder(selectorLabel(), button -> togglePresetList()).size(SELECTOR_WIDTH, WIDGET_HEIGHT).build();
+        this.saveButton = Button.builder(Component.translatable("resourceful.preset.save"), button -> overwrite()).size(SAVE_WIDTH, WIDGET_HEIGHT).build();
         this.configButton = new IconButton(
             this.font,
             Component.literal("⛭").setStyle(Style.EMPTY.withBold(true)),
             0xFFFFFFFF,
             true,
-                _ -> ScreenNavigation.open(new PackhandOptionsScreen(this.screen))
+                button -> ScreenNavigation.open(new ResourcefulOptionsScreen(this.screen))
         );
-        this.configButton.setTooltip(Tooltip.create(Component.translatable("packhand.options.open")));
+        this.configButton.setTooltip(Tooltip.create(Component.translatable("resourceful.options.open")));
 
-        this.nameBox = new EditBox(font, 0, 0, 200, WIDGET_HEIGHT, Component.translatable("packhand.preset.name"));
-        this.nameBox.setHint(Component.translatable("packhand.preset.name.hint"));
+        this.nameBox = new EditBox(font, 0, 0, 200, WIDGET_HEIGHT, Component.translatable("resourceful.preset.name"));
+        this.nameBox.setHint(Component.translatable("resourceful.preset.name.hint"));
         this.nameBox.setMaxLength(64);
-        this.createButton = Button.builder(Component.translatable("packhand.preset.create"), _ -> submitEdit()).size(60, WIDGET_HEIGHT).build();
+        this.createButton = Button.builder(Component.translatable("resourceful.preset.create"), button -> submitEdit()).size(60, WIDGET_HEIGHT).build();
         this.nameBox.setResponder(value -> this.createButton.active = !value.isBlank());
-        this.cancelButton = Button.builder(Component.translatable("gui.cancel"), _ -> finishEditing()).size(60, WIDGET_HEIGHT).build();
+        this.cancelButton = Button.builder(Component.translatable("gui.cancel"), button -> finishEditing()).size(60, WIDGET_HEIGHT).build();
 
         addWidget.accept(this.selector);
         addWidget.accept(this.saveButton);
@@ -166,11 +166,11 @@ public final class PresetPanel {
         this.manager.find(name).ifPresent(preset -> {
             List<String> missing = apply(preset);
             if (missing.isEmpty()) {
-                notice(Component.translatable("packhand.preset.loaded"), Component.literal(preset.name()));
+                notice(Component.translatable("resourceful.preset.loaded"), Component.literal(preset.name()));
             } else {
                 String names = String.join(", ", missing);
                 notice(
-                    Component.translatable("packhand.preset.missing", missing.size()),
+                    Component.translatable("resourceful.preset.missing", missing.size()),
                     Component.literal(names.length() > 180 ? names.substring(0, 177) + "..." : names)
                 );
             }
@@ -188,35 +188,35 @@ public final class PresetPanel {
     private void create() {
         try {
             Preset preset = this.manager.create(this.nameBox.getValue(), comparableIds(selectedIds()));
-            notice(Component.translatable("packhand.preset.saved"), Component.literal(preset.name()));
+            notice(Component.translatable("resourceful.preset.saved"), Component.literal(preset.name()));
             selectPreset(preset.name());
             rebuildPresetButtons();
             finishEditing();
             updateButtons();
         } catch (IllegalArgumentException | PresetManager.PresetStorageException exception) {
-            notice(Component.translatable("packhand.preset.save_failed"), Component.literal(exception.getMessage()));
+            notice(Component.translatable("resourceful.preset.save_failed"), Component.literal(exception.getMessage()));
         }
     }
 
     private void rename() {
         try {
             Preset preset = this.manager.rename(this.editingPreset, this.nameBox.getValue());
-            notice(Component.translatable("packhand.preset.renamed"), Component.literal(preset.name()));
+            notice(Component.translatable("resourceful.preset.renamed"), Component.literal(preset.name()));
             selectPreset(preset.name());
             rebuildPresetButtons();
             finishEditing();
         } catch (IllegalArgumentException | PresetManager.PresetStorageException exception) {
-            notice(Component.translatable("packhand.preset.rename_failed"), Component.literal(exception.getMessage()));
+            notice(Component.translatable("resourceful.preset.rename_failed"), Component.literal(exception.getMessage()));
         }
     }
 
     private void overwrite() {
         try {
             Preset preset = this.manager.overwrite(this.selectedPreset, comparableIds(selectedIds()));
-            notice(Component.translatable("packhand.preset.overwritten"), Component.literal(preset.name()));
+            notice(Component.translatable("resourceful.preset.overwritten"), Component.literal(preset.name()));
             updateButtons();
         } catch (IllegalArgumentException | PresetManager.PresetStorageException exception) {
-            notice(Component.translatable("packhand.preset.save_failed"), Component.literal(exception.getMessage()));
+            notice(Component.translatable("resourceful.preset.save_failed"), Component.literal(exception.getMessage()));
         }
     }
 
@@ -226,12 +226,12 @@ public final class PresetPanel {
             String next = deletedName.equalsIgnoreCase(this.selectedPreset)
                 ? (this.manager.presets().isEmpty() ? "" : this.manager.presets().getFirst().name())
                 : this.selectedPreset;
-            notice(Component.translatable("packhand.preset.deleted"), Component.literal(deletedName));
+            notice(Component.translatable("resourceful.preset.deleted"), Component.literal(deletedName));
             selectPreset(next);
             rebuildPresetButtons();
             updateButtons();
         } catch (IllegalArgumentException | PresetManager.PresetStorageException exception) {
-            notice(Component.translatable("packhand.preset.delete_failed"), Component.literal(exception.getMessage()));
+            notice(Component.translatable("resourceful.preset.delete_failed"), Component.literal(exception.getMessage()));
         }
     }
 
@@ -329,7 +329,7 @@ public final class PresetPanel {
         this.configButton.visible = false;
         this.nameBox.visible = true;
         this.nameBox.active = true;
-        this.createButton.setMessage(Component.translatable(presetName.isEmpty() ? "packhand.preset.create" : "packhand.preset.rename"));
+        this.createButton.setMessage(Component.translatable(presetName.isEmpty() ? "resourceful.preset.create" : "resourceful.preset.rename"));
         this.createButton.visible = true;
         this.cancelButton.visible = true;
         this.cancelButton.active = true;
@@ -414,7 +414,7 @@ public final class PresetPanel {
                 load(choice);
             });
             Button renameButton = new IconButton(this.font, Component.literal("✎"), 0xFFFFFFFF, ignored -> startEditing(choice));
-            renameButton.setTooltip(Tooltip.create(Component.translatable("packhand.preset.rename")));
+            renameButton.setTooltip(Tooltip.create(Component.translatable("resourceful.preset.rename")));
             Button removeButton = new IconButton(this.font, Component.literal("×"), 0xFFFF5555, button -> {
                 if (!choice.equalsIgnoreCase(this.deleteArmedPreset)) {
                     resetDeleteConfirmation();
@@ -424,13 +424,13 @@ public final class PresetPanel {
                     delete(choice);
                 }
             });
-            removeButton.setTooltip(Tooltip.create(Component.translatable("packhand.preset.remove")));
+            removeButton.setTooltip(Tooltip.create(Component.translatable("resourceful.preset.remove")));
             addPresetButton(selectButton);
             addPresetButton(renameButton);
             addPresetButton(removeButton);
         }
 
-        Button newPresetButton = Button.builder(Component.translatable("packhand.preset.new"), ignored -> startEditing(""))
+        Button newPresetButton = Button.builder(Component.translatable("resourceful.preset.new"), ignored -> startEditing(""))
             .size(this.selector.getWidth(), WIDGET_HEIGHT).build();
         addPresetButton(newPresetButton);
         positionPresetButtons();
@@ -461,11 +461,11 @@ public final class PresetPanel {
     }
 
     private static Component presetLabel(final String name) {
-        return name.isEmpty() ? Component.translatable("packhand.preset.none") : Component.literal(name);
+        return name.isEmpty() ? Component.translatable("resourceful.preset.none") : Component.literal(name);
     }
 
     private Component selectorLabel() {
-        return Component.translatable("packhand.preset.selector", presetLabel(this.selectedPreset))
+        return Component.translatable("resourceful.preset.selector", presetLabel(this.selectedPreset))
             .append(this.presetListExpanded ? " △" : " ▽");
     }
 

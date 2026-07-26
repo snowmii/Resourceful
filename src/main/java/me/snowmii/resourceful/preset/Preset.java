@@ -1,4 +1,4 @@
-package me.snowmii.packhand.preset;
+package me.snowmii.resourceful.preset;
 
 import java.util.List;
 
