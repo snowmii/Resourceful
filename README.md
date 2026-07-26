@@ -11,7 +11,7 @@
 [![Modrinth](https://img.shields.io/modrinth/dt/resource-ful?style=for-the-badge&logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/resource-ful)
 [![License](https://img.shields.io/github/license/snowmii/Resourceful?style=for-the-badge&color=green)](LICENSE)
 
-[![Minecraft](https://img.shields.io/badge/minecraft-26.1.2%20%7C%2026.2-62B47A?style=for-the-badge&logo=minecraft&logoColor=white)](https://modrinth.com/mod/Resourceful/versions)
+[![Minecraft](https://img.shields.io/modrinth/game-versions/resource-ful?style=for-the-badge&logo=minecraft&logoColor=white&color=62B47A&label=minecraft)](https://modrinth.com/mod/resource-ful/versions)
 [![Fabric](https://img.shields.io/badge/loader-fabric%200.19.3%2B-DBD0B4?style=for-the-badge&logo=fabricmc&logoColor=white)](https://fabricmc.net/)
 </p>
 
@@ -29,11 +29,11 @@ It lets you:
 * Save your favorite pack combinations as presets and load them with just a single click.
 
 And it supports:
-* Minecraft 26.1.2 and 26.2 with Fabric Loader 0.19.3 or newer
+* Minecraft 1.21.11 / 26.1.2 / 26.2 with Fabric Loader 0.19.3 or newer
 
 ## Getting Started
 
-Download the latest release from [Modrinth](https://modrinth.com/mod/Resourceful) or [releases](https://github.com/snowmii/Resourceful/releases).
+Download the latest release from [Modrinth](https://modrinth.com/mod/resource-ful) or [releases](https://github.com/snowmii/Resourceful/releases).
 1. Install Fabric Loader for your Minecraft version.
 2. Drop Fabric API into your `mods` folder.
 3. Drop `Resourceful-<version>.jar` into your `mods` folder.
@@ -67,6 +67,5 @@ To work against a single version:
 
 * Import/export pack presets
 * or request new features <a href="../../issues/new?labels=enhancement">here</a>
-* 1.21.x support
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
