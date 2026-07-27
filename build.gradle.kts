@@ -19,7 +19,9 @@ apply(plugin = if (obfuscatedMinecraft) "net.fabricmc.fabric-loom-remap" else "n
 val loom = extensions.getByType<LoomGradleExtensionAPI>()
 
 group = "me.snowmii"
-version = "0.1.0+$minecraftVersion"
+version = providers.gradleProperty("releaseVersion")
+    .orElse("$minecraftVersion")
+    .get()
 base.archivesName = "resourceful"
 
 dependencies {

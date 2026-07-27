@@ -68,7 +68,9 @@ jobs:
       - name: Build
         run: |
           chmod +x ./gradlew
-          ./gradlew ":${{ matrix.minecraft }}:build" --stacktrace
+          ./gradlew ":${{ matrix.minecraft }}:build" \
+            -PreleaseVersion="${TAG#v}+${{ matrix.minecraft }}" \
+            --stacktrace
 
       - name: Collect jars
         run: |
