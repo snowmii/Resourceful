@@ -4,6 +4,7 @@
   "version": "${version}",
   "name": "Resourceful",
   "description": "Drag-and-drop resource pack selection and reusable presets.",
+  "icon": "assets/resourceful/logo.png",
   "authors": ["snowmii"],
   "environment": "client",
   "entrypoints": {

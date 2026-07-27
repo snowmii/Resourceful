@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 18 18" shape-rendering="auto">
+  <!-- Resourceful icon — pixel blossom (concept 1) -->
+  <rect x="0" y="0" width="18" height="18" rx="3" fill="#FDEDF3"/>
+  <!-- petals -->
+  <g fill="#F5A8C0">
+    <rect x="7" y="2" width="4" height="3"/>
+    <rect x="7" y="9" width="4" height="3"/>
+    <rect x="3" y="5" width="3" height="4"/>
+    <rect x="12" y="5" width="3" height="4"/>
+  </g>
+  <g fill="#E77FA5">
+    <rect x="5" y="3.5" width="2" height="2"/>
+    <rect x="11" y="3.5" width="2" height="2"/>
+    <rect x="5" y="8.5" width="2" height="2"/>
+    <rect x="11" y="8.5" width="2" height="2"/>
+  </g>
+  <!-- center -->
+  <rect x="7.5" y="5.5" width="3" height="3" fill="#F2C14E"/>
+  <!-- stem + leaves -->
+  <rect x="8.5" y="12" width="1.2" height="4" fill="#4E9E58"/>
+  <rect x="5.5" y="13" width="3" height="1.2" fill="#7BC47F"/>
+  <rect x="9.7" y="14.2" width="3" height="1.2" fill="#7BC47F"/>
+</svg>

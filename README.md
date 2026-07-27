@@ -4,6 +4,8 @@
 <h1>Resourceful</h1>
 
 <p>
+<img width="128" height="128" alt="icon" src="assets/icon.svg" />
+
   A minecraft resourcepack QoL mod
 
 [![Release](https://img.shields.io/github/v/release/snowmii/Resourceful?style=for-the-badge&logo=github&color=blue)](https://github.com/snowmii/Resourceful/releases/latest)
@@ -17,11 +19,13 @@
 
 </div>
 
-Tired of the vanilla resource pack screen making you click tiny arrow buttons 20 times just to move a pack where you want it? <br />
-Sick of re-adding all your favorite packs and re-ordering them after a resource pack loading failure? <br />
-Want to switch between dozens—or even hundreds—of packs in the blink of an eye? <br />
+Tired of the vanilla pack selection screen making you click on tiny arrow buttons 20 times just to move a pack where you want it to be?
 
-Resourceful is here to save your hand!
+Sick of re-adding all your favorite packs and re-ordering them after a resource pack loading failure?
+
+Want to switch between dozens—or even hundreds—of packs in the blink of an eye?
+
+Resourceful is here to save your hand and your time!
 
 
 It lets you:
@@ -31,7 +35,7 @@ It lets you:
 And it supports:
 * Minecraft 1.21.11 / 26.1.2 / 26.2 with Fabric Loader 0.19.3 or newer
 
-## Getting Started
+### Getting Started
 
 Download the latest release from [Modrinth](https://modrinth.com/mod/resource-ful) or [releases](https://github.com/snowmii/Resourceful/releases).
 1. Install Fabric Loader for your Minecraft version.
@@ -40,7 +44,7 @@ Download the latest release from [Modrinth](https://modrinth.com/mod/resource-fu
 4. Launch the game.
 5. And enjoy.
 
-## Building From Source
+### Building From Source
 
 ```sh
 git clone https://github.com/snowmii/Resourceful.git
@@ -50,7 +54,7 @@ cd Resourceful
 
 Jars land in `versions/<mc-version>/build/libs/`.
 
-The project uses Stonecutter, so `./gradlew build` builds every target version.
+The project uses Stonecutter, so `./gradlew build` builds every supported target version.
 To work against a single version:
 
 ```sh
@@ -58,14 +62,16 @@ To work against a single version:
 ./gradlew :26.2:runClient
 ```
 
-## Powered by
+
+### TODOS
+
+* Import/export pack presets
+* Request new features [here]("https://github.com/snowmii/Resourceful/issues/new?labels=enhancement")
+
+
+### Powered by
 
 * [FabricMC](https://fabricmc.net/)
 * [Stonecutter](https://stonecutter.kikugie.dev/) for multi-version supports
-
-## TODOS
-
-* Import/export pack presets
-* or request new features <a href="../../issues/new?labels=enhancement">here</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
