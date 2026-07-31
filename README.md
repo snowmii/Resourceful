@@ -10,10 +10,10 @@
 
 [![Release](https://img.shields.io/github/v/release/snowmii/Resourceful?style=for-the-badge&logo=github&color=blue)](https://github.com/snowmii/Resourceful/releases/latest)
 [![Build](https://img.shields.io/github/actions/workflow/status/snowmii/Resourceful/ci.yml?branch=master&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/snowmii/Resourceful/actions/workflows/ci.yml)
-[![Modrinth](https://img.shields.io/modrinth/dt/resource-ful?style=for-the-badge&logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/resource-ful)
+[![Downloads](https://img.shields.io/modrinth/dt/resource-ful?style=for-the-badge&logo=modrinth&color=00AF5C&label=downloads&cacheSeconds=300)](https://modrinth.com/mod/resource-ful)
 [![License](https://img.shields.io/github/license/snowmii/Resourceful?style=for-the-badge&color=green)](LICENSE)
 
-[![Minecraft](https://img.shields.io/modrinth/game-versions/resource-ful?style=for-the-badge&logo=minecraft&logoColor=white&color=62B47A&label=minecraft)](https://modrinth.com/mod/resource-ful/versions)
+[![Minecraft](https://img.shields.io/badge/minecraft-1.21.11%20%7C%2026.1.2%20%7C%2026.2-62B47A?style=for-the-badge&logo=minecraft&logoColor=white)](https://modrinth.com/mod/resource-ful/versions)
 [![Fabric](https://img.shields.io/badge/loader-fabric%200.19.3%2B-DBD0B4?style=for-the-badge&logo=fabricmc&logoColor=white)](https://fabricmc.net/)
 </p>
 
